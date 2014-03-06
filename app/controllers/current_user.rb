@@ -5,6 +5,13 @@ module CurrentUser
     helper_method :current_user
   end
 
+  def require_user!
+    if current_user.nil?
+      session[:after_auth] ||= request.url
+      redirect_to '/auth/google'
+    end
+  end
+
   def current_user
     @current_user ||= user_from_session || :anonymous
     @current_user == :anonymous ? nil : @current_user
@@ -18,6 +25,6 @@ module CurrentUser
   private
 
   def user_from_session
-    Admin.where(:id => session['current_user_id']).first
+    User.where(:id => session['current_user_id']).first
   end
 end

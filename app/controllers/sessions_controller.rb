@@ -1,12 +1,8 @@
 class SessionsController < ApplicationController
   def create
     auth = OmniauthResult.new(:omniauth => request.env['omniauth.auth'])
-    if user = auth.user
-      self.current_user = user
-      redirect_to root_path
-    else
-      not_found
-    end
+    self.current_user = auth.user
+    redirect_to session.delete(:after_auth) || root_path
   end
 
   def destroy
