@@ -1,0 +1,23 @@
+{
+  "name": "qs",
+  "version": "0.0.0",
+  "authors": [
+    "Matt Burke <spraints@gmail.com>"
+  ],
+  "description": "A quantified self app",
+  "license": "MIT",
+  "homepage": "https://github.com/spraints/qs",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "3.1.1",
+    "jquery": ">= 2.0.0"
+  }
+}
