@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306205037) do
+ActiveRecord::Schema.define(version: 20140309115735) do
+
+  create_table "metrics", force: true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "metrics", ["user_id"], name: "index_metrics_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "provider",                  null: false
@@ -23,5 +32,14 @@ ActiveRecord::Schema.define(version: 20140306205037) do
   end
 
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid"
+
+  create_table "values", force: true do |t|
+    t.integer  "metric_id"
+    t.float    "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "values", ["metric_id"], name: "index_values_on_metric_id"
 
 end
