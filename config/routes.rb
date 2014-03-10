@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   post   "auth/:provider/callback" => "sessions#create"
   delete "auth"                    => "sessions#destroy"
 
-  resources :metrics
+  resources :metrics, :constraints => { :id => /.*/ }
 end

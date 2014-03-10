@@ -11,5 +11,5 @@
       .metric-date
         = time_ago_in_words(metric.occurred_at)
         ago
-      .metric-name= metric.name
+      .metric-name= link_to metric.name, :action => 'show', :id => metric.name
       .metric-value= metric.value

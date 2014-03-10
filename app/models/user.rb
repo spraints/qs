@@ -6,11 +6,15 @@ class User < ActiveRecord::Base
     username
   end
 
+  def find_metric(name)
+    metrics.named(name)
+  end
+
   def measure(name, value)
     metrics.named(name) << value
   end
 
   def recent_metrics
-    values.order('created_at DESC').limit(10).includes(:metric)
+    values.limit(10).includes(:metric)
   end
 end

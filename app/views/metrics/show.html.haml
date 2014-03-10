@@ -1,0 +1,19 @@
+%h1 Metrics
+
+%h2= view_model.metric.name
+
+.graph-placeholder
+
+%table.metrics
+  %thead
+    %tr
+      %th Date
+      %th= view_model.metric.name
+  %tbody
+    - view_model.values.each do |value|
+      %tr.data-point{"data-x" => value.occurred_at, "data-y" => value.value}
+        %td
+          = time_ago_in_words(value.occurred_at)
+          ago
+        %td
+          = value.value
