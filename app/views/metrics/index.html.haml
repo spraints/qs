@@ -1,1 +1,15 @@
 %h1 Metrics
+
+= form_tag metrics_path, :method => 'post' do
+  = text_field_tag :name, params[:name], :placeholder => 'name'
+  = text_field_tag :value, params[:value], :placeholder => 'value'
+  = submit_tag raw('&#x21a9;')
+
+.recent-metrics
+  - view_model.recent_metrics.each do |metric|
+    .metric
+      .metric-date
+        = time_ago_in_words(metric.occurred_at)
+        ago
+      .metric-name= metric.name
+      .metric-value= metric.value
