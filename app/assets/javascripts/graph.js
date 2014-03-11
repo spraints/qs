@@ -59,8 +59,6 @@ svg.append("g")
     .attr("transform", "rotate(-90)")
     .attr("y", 6)
     .attr("dy", ".71em")
-    .style("text-anchor", "end")
-    .text("Price ($)");
 
 svg.append("path")
     .datum(data)
