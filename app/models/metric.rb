@@ -1,6 +1,6 @@
 class Metric < ActiveRecord::Base
   belongs_to :user
-  has_many :values
+  has_many :values, :dependent => :destroy
 
   def self.named(name)
     find_or_create_by(:name => name)

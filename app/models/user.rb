@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :metrics
+  has_many :metrics, :dependent => :destroy
   has_many :values, :through => :metrics
 
   def to_s
