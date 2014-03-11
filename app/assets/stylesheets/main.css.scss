@@ -1,0 +1,16 @@
+form {
+  .metric-name {
+    margin-left: 150px;
+    width: 150px;
+  }
+}
+
+.recent-metrics {
+  > .metric {
+    > div {
+      display: inline-block;
+    }
+    .metric-date { width: 150px; }
+    .metric-name { width: 150px; }
+  }
+}
