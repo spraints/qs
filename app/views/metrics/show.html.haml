@@ -4,6 +4,15 @@
 
 %h2= view_model.metric.name
 
+%ul.metric-types
+  - view_model.metric_types.each do |metric_type|
+    - if metric_type.active?
+      %li.metric-type.current
+        = metric_type
+    - else
+      %li.metric-type
+        = link_to metric_type, {:action => "update", "metric[metric_type]" => metric_type}, "data-method" => "patch"
+
 .graph-placeholder
 
 %table.metrics
