@@ -1,18 +1,20 @@
 #require_relative "target_parser/language"
 
 module TargetParser
+  class ParseError < RuntimeError ; end
+
   def self.new
     ParserWrapper.new
   end
 
   class ParserWrapper
     def parse(str)
-      parsed = parser.parse(str)
-      parsed.simplify
-    end
-
-    def parser
-      TargetParser::LanguageParser.new
+      parser = TargetParser::LanguageParser.new
+      if parsed = parser.parse(str)
+        parsed.simplify
+      else
+        raise ParseError, parser.failure_reason
+      end
     end
   end
 end

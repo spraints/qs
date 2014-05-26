@@ -1,7 +1,7 @@
 module TargetParser
   grammar Language
-    rule expression
-      space? content:(function / identifier) space? {
+    rule context
+      space? content:(function / series) space? {
         def simplify
           content.simplify
         end
@@ -17,7 +17,11 @@ module TargetParser
     end
     
     rule float
-      ('+' / '-')? [0-9]+ (('.' [0-9]+) / ('e' [0-9]+))
+      ('+' / '-')? [0-9]+ (('.' [0-9]+) / ('e' [0-9]+)) {
+        def simplify
+          text_value.to_f
+        end
+      }
     end
     
     rule string
@@ -28,8 +32,12 @@ module TargetParser
       }
     end
     
-    rule identifier
-      [a-zA-Z\=\*] [a-zA-Z0-9_\=\*]* {
+    rule function_name
+      [a-zA-Z\=\*] [a-zA-Z0-9_\=\*]*
+    end
+
+    rule series
+      [a-zA-Z\=\*] [a-zA-Z0-9_\.]* {
         def simplify
           [:series, text_value]
         end
@@ -41,10 +49,10 @@ module TargetParser
     end
 
     rule function
-      name:identifier space? '(' space? series:expression space? args:(function_arg)* ')' {
+      name:function_name space? '(' space? context:context space? args:(function_arg)* ')' {
         def simplify
           simplified_args = args.elements.map { |arg| arg.simplify }
-          [:call, name.text_value, series.simplify] + simplified_args
+          [:call, name.text_value, context.simplify] + simplified_args
         end
       }
     end
@@ -58,7 +66,7 @@ module TargetParser
     end
 
     rule literal
-      integer / float / string
+      float / integer / string
     end
   end
 end
