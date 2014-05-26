@@ -1,0 +1,64 @@
+module TargetParser
+  grammar Language
+    rule expression
+      space? content:(function / identifier) space? {
+        def simplify
+          content.simplify
+        end
+      }
+    end
+
+    rule integer
+      ('+' / '-')? [0-9]+ {
+        def simplify
+          text_value.to_i
+        end
+      }
+    end
+    
+    rule float
+      ('+' / '-')? [0-9]+ (('.' [0-9]+) / ('e' [0-9]+))
+    end
+    
+    rule string
+      '"' value:([^"\\] / "\\" . )* '"' {
+        def simplify
+          value.text_value
+        end
+      }
+    end
+    
+    rule identifier
+      [a-zA-Z\=\*] [a-zA-Z0-9_\=\*]* {
+        def simplify
+          [:series, text_value]
+        end
+      }
+    end
+    
+    rule space
+      [\s]+
+    end
+
+    rule function
+      name:identifier space? '(' space? series:expression space? args:(function_arg)* ')' {
+        def simplify
+          simplified_args = args.elements.map { |arg| arg.simplify }
+          [:call, name.text_value, series.simplify] + simplified_args
+        end
+      }
+    end
+
+    rule function_arg
+      ',' space? value:literal space? {
+        def simplify
+          value.simplify
+        end
+      }
+    end
+
+    rule literal
+      integer / float / string
+    end
+  end
+end

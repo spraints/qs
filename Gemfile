@@ -13,6 +13,7 @@ gem 'jquery-rails'
 gem 'dotenv'
 gem 'haml-rails'
 gem 'omniauth-openid'
+gem 'treetop'
 gem 'unicorn'
 
 # not production

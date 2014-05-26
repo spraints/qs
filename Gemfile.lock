@@ -211,5 +211,6 @@ DEPENDENCIES
   sass-rails (~> 4.0.1)
   spring
   sqlite3
+  treetop
   uglifier (>= 1.3.0)
   unicorn
