@@ -15,6 +15,6 @@ class User < ActiveRecord::Base
   end
 
   def recent_metrics
-    values.limit(10).includes(:metric)
+    values.limit(200).includes(:metric)
   end
 end
