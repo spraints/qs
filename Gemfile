@@ -12,7 +12,7 @@ gem 'jquery-rails'
 # everything else
 gem 'dotenv'
 gem 'haml-rails'
-gem 'omniauth-openid'
+gem 'omniauth-google-oauth2'
 gem 'unicorn'
 
 # not production
