@@ -8,7 +8,12 @@ class MetricsController < ApplicationController
 
   def create
     current_user.measure(params[:name], params[:value])
-    redirect_to :action => "index"
+    case params[:return_to]
+    when "show"
+      redirect_to :action => "show", :id => params[:name]
+    else
+      redirect_to :action => "index"
+    end
   end
 
   def show
