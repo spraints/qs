@@ -1,5 +1,10 @@
 %h1 Metrics
 
+.dashboard
+  - view_model.all_metrics.each do |metric|
+    .dashboard-metric
+      = link_to metric.name, :action => 'show', :id => metric.name
+
 = form_tag metrics_path, :method => 'post' do
   = text_field_tag :name, params[:name], :placeholder => 'name', :class => 'metric-name'
   = text_field_tag :value, params[:value], :placeholder => 'value', :class => 'metric-value'

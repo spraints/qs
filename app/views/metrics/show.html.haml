@@ -1,5 +1,7 @@
 %h1 Metrics
 
+= link_to "<< Back", :action => "index"
+
 %h2= view_model.metric.name
 
 .graph-placeholder
@@ -10,6 +12,14 @@
       %th Date
       %th= view_model.metric.name
   %tbody
+    %tr
+      %td
+      %td
+        = form_tag metrics_path, :method => 'post' do
+          = hidden_field_tag :name, view_model.metric.name
+          = hidden_field_tag :return_to, "show"
+          = text_field_tag :value, params[:value], :placeholder => 'value', :class => 'metric-value'
+          = submit_tag raw('&#x21a9;')
     - view_model.values.each do |value|
       %tr.data-point{"data-x" => value.occurred_at, "data-y" => value.value}
         %td
