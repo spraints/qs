@@ -2,6 +2,7 @@ class MetricsController < ApplicationController
   before_filter :require_user!
 
   def index
+    view_model.all_metrics = current_user.metrics
     view_model.recent_metrics = current_user.recent_metrics
   end
 

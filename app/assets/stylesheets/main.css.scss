@@ -5,6 +5,26 @@ form {
   }
 }
 
+.dashboard-metric {
+  position: relative;
+  display: inline-block;
+  width: 5em;
+  height: 5em;
+  > a {
+    display: block;
+    width: 5em;
+    padding-top: 2em;
+    height: 5em;
+    text-align: center;
+    vertical-align: middle;
+    border: solid 1px black;
+    border-radius: 6px;
+    &:hover {
+      background-color: #ddf;
+    }
+  }
+}
+
 .recent-metrics {
   > .metric {
     > div {
