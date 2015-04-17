@@ -7,7 +7,7 @@ commit="$1"
 if git rev-parse --verify --quiet "${commit}"; then
   # TODO - check CI
   set -x
-  git push heroku "${commit}:refs/heads/master"
+  git push --force heroku "${commit}:refs/heads/master"
 else
   cat "$0" | grep ^#/ | cut -c4-
 fi
