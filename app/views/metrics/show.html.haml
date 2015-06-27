@@ -27,3 +27,10 @@
           ago
         %td
           = value.value
+        %td.confirmable
+          .question
+            %span.link.danger.to-confirm -
+          .confirmation
+            Are you sure?
+            = link_to "Yes", value, :method => 'delete', :class => "danger"
+            %span.link.cancel No
