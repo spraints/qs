@@ -23,7 +23,8 @@
     - view_model.values.each do |value|
       %tr.data-point{"data-x" => value.occurred_at, "data-y" => value.value}
         %td
-          = time_ago_in_words(value.occurred_at)
+          %time{:title => value.occurred_at}
+            = time_ago_in_words(value.occurred_at)
           ago
         %td
           = value.value
