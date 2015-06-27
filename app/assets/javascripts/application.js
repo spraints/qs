@@ -15,3 +15,4 @@
 //= require bootstrap/dist/js/bootstrap
 //
 //= require graph
+//= require confirmable

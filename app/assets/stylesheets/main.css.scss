@@ -34,3 +34,25 @@ form {
     .metric-name { width: 150px; }
   }
 }
+
+.confirmable {
+  > .confirmation {
+    display: none;
+  }
+  &.confirming {
+    > .question {
+      display: none;
+    }
+    > .confirmation {
+      display: block;
+    }
+  }
+}
+
+.danger {
+  color: red;
+}
+
+.link {
+  cursor: pointer;
+}
