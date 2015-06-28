@@ -19,6 +19,5 @@ class MetricsController < ApplicationController
   def show
     view_model.metric = current_user.find_metric(params[:id])
     view_model.values = view_model.metric.values
-    view_model.style = Style.for(params[:style])
   end
 end
