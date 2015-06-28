@@ -28,7 +28,7 @@
           = text_field_tag :value, params[:value], :placeholder => 'value', :class => 'metric-value'
           = submit_tag raw('&#x21a9;')
     - view_model.values.each do |value|
-      %tr.data-point{"data-x" => value.occurred_at, "data-y" => value.value}
+      %tr.data-point{"data-x" => value.occurred_at, "data-y" => view_model.style.value(value)}
         %td
           %time{:title => value.occurred_at}
             = time_ago_in_words(value.occurred_at)
