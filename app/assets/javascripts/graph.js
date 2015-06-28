@@ -2,8 +2,21 @@
 
 $(function() {
 
-if($('.graph-placeholder').length == 0)
+graphs = $('.graph-placeholder');
+if(graphs.length == 0)
   return;
+
+function Normal() {
+  this.transform = function(x) { console.log(x) }
+}
+var accum = new Normal();
+//if (graphs[0].classList.contains("by_month")) {
+//  accum = new ByMonth();
+//} else if (graphs[0].classList.contains("by_year")) {
+//  accum = new ByYear();
+//} else if (graphs[0].classList.contains("year_v_year")) {
+//  accum = new YearVsYear();
+//}
 
 var html_data_points = $('.data-point');
 var data_points = html_data_points.map(function() { return this.dataset; });
@@ -42,7 +55,9 @@ var svg = d3.select(".graph-placeholder").append("svg")
 
 var data = $('.data-point').map(function() {
   return {"date": parseDate(this.dataset["x"]), "value": +this.dataset["y"]};
-}).toArray();
+}).toArray().sort(function(a, b) { return d3.ascending(a.date, b.date); });
+
+data.forEach(accum.transform);
 
 x.domain(d3.extent(data, function(d) { return d.date; }));
 y.domain(d3.extent(data, function(d) { return d.value; }));
