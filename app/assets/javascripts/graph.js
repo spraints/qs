@@ -9,14 +9,12 @@ if(graphs.length == 0)
 
 function by(period) {
   return function(raw) {
-    var data = new DataByPeriod(period);
-    raw.forEach(function(x) { data.append(x); });
-    return data.aggregates;
+    return aggregate(new DataByPeriod(period), raw);
   }
 }
 
 function DataByPeriod(period) {
-  var results = this.aggregates = [];
+  var results = this.results = [];
 
   this.append = function(point) {
     var aggPoint = setUpPoint(point.date);
@@ -35,14 +33,63 @@ function DataByPeriod(period) {
     } else {
       newPoint(date);
     }
-    return current.point;
+    return current.point.y;
   }
 
   function newPoint(moment) {
-    var point = {date: moment.clone().toDate(), value: 0};
+    var point = {x: moment.clone().toDate(), y: {value: 0}};
     results.push(point);
     current = {moment: moment, unix: moment.unix(), point: point};
   }
+}
+
+function year_v_year(raw) {
+  return aggregate(new YearVsYear(), raw);
+}
+
+function YearVsYear() {
+  function eachDay(start, cb) {
+    for (var d = start; d <= 366; d++) {
+      cb(d);
+    }
+  }
+
+  this.append = function(point) {
+    var thisMoment = moment(point.date);
+    var year = setUpYear(thisMoment.year());
+    year.increment(thisMoment.dayOfYear(), point.value);
+  }
+
+  var results = this.results = [];
+  eachDay(0, function(d) { results[d] = {x:d, y:{}} });
+  results.xScale = d3.scale.linear();
+  results.series = [];
+  results.yDomain = [0, 1];
+
+  var years = {};
+  function setUpYear(year) {
+    if (!years[year]) {
+      years[year] = new Year(year);
+      results.series.push(years[year].name);
+    }
+    return years[year];
+  }
+
+  function Year(year) {
+    var name = this.name = year.toString();
+    eachDay(0, function(d) { results[d].y[name] = 0; });
+    this.increment = function(dayOfYear, value) {
+      var last = 0;
+      eachDay(dayOfYear, function(d) { last = results[d].y[name] = results[d].y[name] + value; });
+      if (last > results.yDomain[1])
+        results.yDomain[1] = last;
+    }
+  }
+}
+
+function aggregate(collector, raw) {
+  raw.forEach(function(x) { collector.append(x); });
+  return collector.results;
 }
 
 if (graphs[0].classList.contains("by_week")) {
@@ -54,21 +101,25 @@ if (graphs[0].classList.contains("by_week")) {
 } else if (graphs[0].classList.contains("year_v_year")) {
   transform = year_v_year;
 } else {
-  transform = function(x) { return x; };
+  transform = function(raw) {
+    return raw.map(function(point) { return {x:point.date, y:{value:point.value}}; });
+  };
 }
 
-var html_data_points = $('.data-point');
-var data_points = html_data_points.map(function() { return this.dataset; });
+// e.g. "2014-03-10 21:04:57 UTC"
+var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S UTC").parse;
+
+var data = $('.data-point').map(function() {
+  return {"date": parseDate(this.dataset["x"]), "value": +this.dataset["y"]};
+}).toArray().sort(function(a, b) { return d3.ascending(a.date, b.date); });
+data = transform(data);
 
 
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-// e.g. "2014-03-10 21:04:57 UTC"
-var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S UTC").parse;
-
-var x = d3.time.scale()
+var x = (data.xScale || d3.time.scale())
     .range([0, width]);
 
 var y = d3.scale.linear()
@@ -82,23 +133,15 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-var line = d3.svg.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.value); });
-
-var svg = d3.select(".graph-placeholder").append("svg")
+var container = d3.select(".graph-placeholder");
+var svg = container.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var data = $('.data-point').map(function() {
-  return {"date": parseDate(this.dataset["x"]), "value": +this.dataset["y"]};
-}).toArray().sort(function(a, b) { return d3.ascending(a.date, b.date); });
-data = transform(data);
-
-x.domain(d3.extent(data, function(d) { return d.date; }));
-y.domain(d3.extent(data, function(d) { return d.value; }));
+x.domain(d3.extent(data, function(d) { return d.x; }));
+y.domain(data.yDomain || d3.extent(data, function(d) { return d.y.value; }));
 
 svg.append("g")
     .attr("class", "x axis")
@@ -111,11 +154,22 @@ svg.append("g")
   .append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 6)
-    .attr("dy", ".71em")
+    .attr("dy", ".71em");
 
-svg.append("path")
-    .datum(data)
-    .attr("class", "line")
-    .attr("d", line);
+(data.series || ["value"]).forEach(function(series, i) {
+  var line = d3.svg.line()
+      .x(function(d) { return x(d.x); })
+      .y(function(d) { return y(d.y[series]); });
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line line" + i)
+      .attr("d", line);
+
+  if (series != "value") {
+    container.append("span").attr("class", "legend" + i).text(series);
+    //legend.append("<span></span>").addClass("legend" + i).text(series);
+  }
+});
 
 });

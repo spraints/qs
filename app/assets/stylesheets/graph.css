@@ -11,6 +11,14 @@
 
 .line {
   fill: none;
-  stroke: steelblue;
   stroke-width: 1.5px;
 }
+/* http://paletton.com/#uid=7000A0kllllaFw0g0qFqFg0w0aF */
+.line0 { stroke: #26596a; }
+.legend0 { color: #26596a; }
+.line1 { stroke: #aa3939; }
+.legend1 { color: #aa3939; }
+.line2 { stroke: #aa7339; }
+.legend2 { color: #aa7339; }
+.line3 { stroke: #2d882d; }
+.legend3 { color: #2d882d; }
