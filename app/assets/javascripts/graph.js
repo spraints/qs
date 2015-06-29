@@ -134,12 +134,12 @@ var yAxis = d3.svg.axis()
     .orient("left");
 
 var container = d3.select(".graph-placeholder");
-var legend = container.append("div").attr("class", "legend");
 var svg = container.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var legend = container.append("div").attr("class", "legend");
 
 x.domain(d3.extent(data, function(d) { return d.x; }));
 y.domain(data.yDomain || d3.extent(data, function(d) { return d.y.value; }));
