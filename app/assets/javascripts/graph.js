@@ -134,6 +134,7 @@ var yAxis = d3.svg.axis()
     .orient("left");
 
 var container = d3.select(".graph-placeholder");
+var legend = container.append("div").attr("class", "legend");
 var svg = container.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -167,8 +168,7 @@ svg.append("g")
       .attr("d", line);
 
   if (series != "value") {
-    container.append("span").attr("class", "legend" + i).text(series);
-    //legend.append("<span></span>").addClass("legend" + i).text(series);
+    legend.append("div").attr("class", "legend" + i).text(series);
   }
 });
 
