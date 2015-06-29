@@ -13,12 +13,8 @@
   fill: none;
   stroke-width: 1.5px;
 }
-.legend {
-  left: 50px; /* matches margin.left in graph.js */
-}
 .legend > * {
-  padding: 0.5em;
-  padding-left: 0;
+  padding-left: 50px; /* matches margin.left in graph.js */
 }
 /* http://paletton.com/#uid=7000A0kllllaFw0g0qFqFg0w0aF */
 .line0 { stroke: #26596a; }

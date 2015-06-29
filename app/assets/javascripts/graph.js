@@ -168,7 +168,7 @@ svg.append("g")
       .attr("d", line);
 
   if (series != "value") {
-    legend.append("div").attr("class", "legend" + i).text(series);
+    legend.append("span").attr("class", "legend" + i).text(series);
   }
 });
 
