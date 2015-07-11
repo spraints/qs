@@ -1,6 +1,7 @@
 //= require 'd3/d3'
 //= require 'moment/moment'
 //= require 'graph/data_by_period'
+//= require 'graph/derivative'
 //= require 'graph/year_vs_year'
 
 $(function() {
@@ -12,6 +13,12 @@ if(graphs.length == 0)
 function by(period) {
   return function(raw) {
     return aggregate(new DataByPeriod(period), raw);
+  }
+}
+
+function per(dyPeriod) {
+  return function(raw) {
+    return aggregate(new Derivative(dyPeriod), raw);
   }
 }
 
@@ -32,6 +39,8 @@ if (graphs[0].classList.contains("by_week")) {
   transform = by("year");
 } else if (graphs[0].classList.contains("year_v_year")) {
   transform = year_v_year;
+} else if (graphs[0].classList.contains("per_week")) {
+  transform = per("week");
 } else {
   transform = function(raw) {
     return raw.map(function(point) { return {x:point.date, y:{value:point.value}}; });
@@ -47,7 +56,7 @@ var data = $('.data-point').map(function() {
 data = transform(data);
 
 
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
+var margin = {top: 20, right: 20, bottom: 30, left: 100},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
