@@ -19,7 +19,8 @@ function Derivative(options) {
         var dyMs = point.date - lastPoint.date;
         var dyPeriod = dyMs / periodMs;
         var rate = lastRate = dx / dyPeriod;
-        results.push({x: lastPoint.date, y: {value: rate}});
+        if (results.length == 0)
+          results.push({x: lastPoint.date, y: {value: rate}});
         results.push({x:     point.date, y: {value: rate}});
       } else if (lastRate != null) {
         results.push({x:     point.date, y: {value: lastRate}});
