@@ -1,5 +1,6 @@
 function Derivative(options) {
-  var results = this.results = [];
+  var results = [];
+  this.results = [{x: new Date(), y: {value: 0}}, {x: new Date(), y: {value: 0}}];
   var periodMs = moment.duration(1, options.period).asMilliseconds();
 
   var rightDirection = function(dx) { return true; }
@@ -23,7 +24,8 @@ function Derivative(options) {
       } else if (lastRate != null) {
         results.push({x:     point.date, y: {value: lastRate}});
       }
-      console.groupEnd();
+      if (results.length > 2)
+        this.results = results;
     }
     lastPoint = point;
   }
