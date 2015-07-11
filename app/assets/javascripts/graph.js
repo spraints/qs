@@ -40,7 +40,11 @@ if (graphs[0].classList.contains("by_week")) {
 } else if (graphs[0].classList.contains("year_v_year")) {
   transform = year_v_year;
 } else if (graphs[0].classList.contains("per_week")) {
-  transform = per("week");
+  transform = per({period: "week"});
+} else if (graphs[0].classList.contains("per_week_negative")) {
+  transform = per({period: "week", direction: "negative"});
+} else if (graphs[0].classList.contains("per_week_positive")) {
+  transform = per({period: "week", direction: "positive"});
 } else {
   transform = function(raw) {
     return raw.map(function(point) { return {x:point.date, y:{value:point.value}}; });
