@@ -1,5 +1,8 @@
 //= require 'd3/d3'
 //= require 'moment/moment'
+//= require 'graph/data_by_period'
+//= require 'graph/derivative'
+//= require 'graph/year_vs_year'
 
 $(function() {
 
@@ -13,78 +16,14 @@ function by(period) {
   }
 }
 
-function DataByPeriod(period) {
-  var results = this.results = [];
-
-  this.append = function(point) {
-    var aggPoint = setUpPoint(point.date);
-    aggPoint.value = aggPoint.value + point.value;
-  }
-
-  var current = null;
-
-  function setUpPoint(date) {
-    date = moment(date).startOf(period);
-    if (current) {
-      dateUnix = date.unix();
-      while (current.unix < dateUnix) {
-        newPoint(current.moment.add(1, period));
-      }
-    } else {
-      newPoint(date);
-    }
-    return current.point.y;
-  }
-
-  function newPoint(moment) {
-    var point = {x: moment.clone().toDate(), y: {value: 0}};
-    results.push(point);
-    current = {moment: moment, unix: moment.unix(), point: point};
+function per(dyPeriod) {
+  return function(raw) {
+    return aggregate(new Derivative(dyPeriod), raw);
   }
 }
 
 function year_v_year(raw) {
   return aggregate(new YearVsYear(), raw);
-}
-
-function YearVsYear() {
-  function eachDay(start, cb) {
-    for (var d = start; d <= 366; d++) {
-      cb(d);
-    }
-  }
-
-  this.append = function(point) {
-    var thisMoment = moment(point.date);
-    var year = setUpYear(thisMoment.year());
-    year.increment(thisMoment.dayOfYear(), point.value);
-  }
-
-  var results = this.results = [];
-  eachDay(0, function(d) { results[d] = {x:d, y:{}} });
-  results.xScale = d3.scale.linear();
-  results.series = [];
-  results.yDomain = [0, 1];
-
-  var years = {};
-  function setUpYear(year) {
-    if (!years[year]) {
-      years[year] = new Year(year);
-      results.series.push(years[year].name);
-    }
-    return years[year];
-  }
-
-  function Year(year) {
-    var name = this.name = year.toString();
-    eachDay(0, function(d) { results[d].y[name] = 0; });
-    this.increment = function(dayOfYear, value) {
-      var last = 0;
-      eachDay(dayOfYear, function(d) { last = results[d].y[name] = results[d].y[name] + value; });
-      if (last > results.yDomain[1])
-        results.yDomain[1] = last;
-    }
-  }
 }
 
 function aggregate(collector, raw) {
@@ -100,6 +39,12 @@ if (graphs[0].classList.contains("by_week")) {
   transform = by("year");
 } else if (graphs[0].classList.contains("year_v_year")) {
   transform = year_v_year;
+} else if (graphs[0].classList.contains("per_week")) {
+  transform = per({period: "week"});
+} else if (graphs[0].classList.contains("per_week_negative")) {
+  transform = per({period: "week", direction: "negative"});
+} else if (graphs[0].classList.contains("per_week_positive")) {
+  transform = per({period: "week", direction: "positive"});
 } else {
   transform = function(raw) {
     return raw.map(function(point) { return {x:point.date, y:{value:point.value}}; });
@@ -115,7 +60,7 @@ var data = $('.data-point').map(function() {
 data = transform(data);
 
 
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
+var margin = {top: 20, right: 20, bottom: 30, left: 100},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
