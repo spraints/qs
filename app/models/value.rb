@@ -1,4 +1,4 @@
-class Value < ActiveRecord::Base
+class Value < ApplicationRecord
   belongs_to :metric
 
   delegate :name, :to => :metric
