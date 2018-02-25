@@ -24,12 +24,8 @@
   <li>Derivative</li>
   <li>
     <%= link_to_style "rate per week", "per_week" %>
-    <%= surround '(', ')' do %>
-      <%= link_to_style "negative", "per_week_negative" %>
-    <% end %>
-    <%= surround '(', ')' do %>
-      <%= link_to_style "positive", "per_week_positive" %>
-    <% end %>
+    (<%= link_to_style "negative", "per_week_negative" %>)
+    (<%= link_to_style "positive", "per_week_positive" %>)
   </li>
 </ul>
 <table class="metrics">
