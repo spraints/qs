@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '2.4.0'
-gem 'rails', '4.1.0rc1'
+gem 'rails', '~> 4.2.0'
 
 # assets
 gem 'sass-rails', '~> 4.0.1'
