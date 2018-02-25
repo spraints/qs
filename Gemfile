@@ -11,7 +11,6 @@ gem 'jquery-rails'
 
 # everything else
 gem 'dotenv'
-gem 'haml-rails'
 gem 'omniauth-google-oauth2'
 gem 'unicorn'
 

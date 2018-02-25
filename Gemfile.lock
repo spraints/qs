@@ -70,13 +70,6 @@ GEM
     guard-rspec (4.3.1)
       guard (~> 2.1)
       rspec (>= 2.14, < 4.0)
-    haml (4.0.5)
-      tilt
-    haml-rails (0.5.3)
-      actionpack (>= 4.0.1)
-      activesupport (>= 4.0.1)
-      haml (>= 3.1, < 5.0)
-      railties (>= 4.0.1)
     hashie (3.3.2)
     hike (1.2.3)
     hitimes (1.2.2)
@@ -218,7 +211,6 @@ DEPENDENCIES
   dotenv
   factory_girl_rails
   guard-rspec
-  haml-rails
   jquery-rails
   omniauth-google-oauth2
   pg
