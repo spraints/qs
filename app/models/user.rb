@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_many :metrics, :dependent => :destroy
   has_many :values, :through => :metrics
 

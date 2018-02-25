@@ -1,0 +1,15 @@
+#!/usr/bin/env bundle exec rails runner
+#/ Usage: script/make-it-rain
+#/ For each user in the database, ensure a "rain" metric
+#/ exists and has a bunch of historical data.
+
+
+User.find_each do |user|
+  rain = user.metrics.where(:name => "rain").first_or_create
+  if rain.values.size < 50
+    50.times do |i|
+      t = (i*5).days.ago
+      rain.values.create value: (rand * 4.0), created_at: t, updated_at: t
+    end
+  end
+end

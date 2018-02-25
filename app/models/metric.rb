@@ -1,4 +1,4 @@
-class Metric < ActiveRecord::Base
+class Metric < ApplicationRecord
   belongs_to :user
   has_many :values, :dependent => :destroy
 
