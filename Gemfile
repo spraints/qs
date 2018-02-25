@@ -31,6 +31,6 @@ end
 
 # production
 group :production do
-  gem 'pg'
+  gem 'pg', '~> 0.18' # AR's pg adapter says this
   gem 'rails_12factor'
 end
