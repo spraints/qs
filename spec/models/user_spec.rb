@@ -16,11 +16,11 @@ describe User do
       before { user.measure("new.metric", 50) }
 
       it "belongs to the user" do
-        Metric.where(:user_id => user.id).pluck(:name).should eq(['new.metric'])
+        expect(Metric.where(:user_id => user.id).pluck(:name)).to eq(['new.metric'])
       end
 
       it "associates a value" do
-        Metric.where(:user_id => user.id).first.values.pluck(:value).should eq([50])
+        expect(Metric.where(:user_id => user.id).first.values.pluck(:value)).to eq([50])
       end
 
       it "does not create a metric" do
