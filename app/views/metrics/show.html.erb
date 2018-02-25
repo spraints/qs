@@ -1,0 +1,80 @@
+<h1>Metrics</h1>
+<%= link_to "<< Back", :action => "index" %>
+<h2>
+  <%= view_model.metric.name %>
+</h2>
+<div class="graph-placeholder <%= params[:style] %>"></div>
+<ul>
+  <li>
+    <%= link_to_style "normal", nil %>
+  </li>
+  <li>Integrals</li>
+  <li>
+    <%= link_to_style "total by week", "by_week" %>
+  </li>
+  <li>
+    <%= link_to_style "total by month", "by_month" %>
+  </li>
+  <li>
+    <%= link_to_style "total by year", "by_year" %>
+  </li>
+  <li>
+    <%= link_to_style "year vs year", "year_v_year" %>
+  </li>
+  <li>Derivative</li>
+  <li>
+    <%= link_to_style "rate per week", "per_week" %>
+    <%= surround '(', ')' do %>
+      <%= link_to_style "negative", "per_week_negative" %>
+    <% end %>
+    <%= surround '(', ')' do %>
+      <%= link_to_style "positive", "per_week_positive" %>
+    <% end %>
+  </li>
+</ul>
+<table class="metrics">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>
+        <%= view_model.metric.name %>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td>
+        <%= form_tag metrics_path, :method => 'post' do %>
+          <%= hidden_field_tag :name, view_model.metric.name %>
+          <%= hidden_field_tag :return_to, "show" %>
+          <%= text_field_tag :value, params[:value], :placeholder => 'value', :class => 'metric-value' %>
+          <%= submit_tag raw('&#x21a9;') %>
+        <% end %>
+      </td>
+    </tr>
+    <% view_model.values.each do |value| %>
+      <tr class="data-point" data-x="<%= value.occurred_at %>" data-y="<%= value.value %>">
+        <td>
+          <time title="<%= value.occurred_at %>">
+            <%= time_ago_in_words(value.occurred_at) %>
+          </time>
+          ago
+        </td>
+        <td>
+          <%= value.value %>
+        </td>
+        <td class="confirmable">
+          <div class="question">
+            <span class="link danger to-confirm">-</span>
+          </div>
+          <div class="confirmation">
+            Are you sure?
+            <%= link_to "Yes", value, :method => 'delete', :class => "danger" %>
+            <span class="link cancel">No</span>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
