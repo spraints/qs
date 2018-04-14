@@ -23,7 +23,7 @@ function per(dyPeriod) {
 }
 
 function year_v_year(raw) {
-  return aggregate(new YearVsYear(), raw);
+  return aggregate(new YearVsYear({maxSeries: 4}), raw);
 }
 
 function aggregate(collector, raw) {

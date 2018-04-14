@@ -1,4 +1,6 @@
-function YearVsYear() {
+function YearVsYear(options) {
+  const MAX_SERIES = (options && options.maxSeries) || 3
+
   function eachDay(start, cb) {
     for (var d = start; d <= 366; d++) {
       cb(d);
@@ -18,10 +20,16 @@ function YearVsYear() {
   results.yDomain = [0, 1];
 
   var years = {};
+  var numSeries = 0;
   function setUpYear(year) {
     if (!years[year]) {
       years[year] = new Year(year);
       results.series.push(years[year].name);
+      numSeries = numSeries + 1;
+      if (numSeries > MAX_SERIES) {
+        const yearToRemove = results.series.shift()
+        console.log(`year ${year} is one too many, removing ${yearToRemove}`)
+      }
     }
     return years[year];
   }
