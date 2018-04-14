@@ -7,6 +7,8 @@ commit="$1"
 if git rev-parse --verify --quiet "${commit}"; then
   # TODO - check CI
   set -x
+  RAILS_ENVIRONMENT=production bundle exec rake assets:precompile
+  bundle exec rake assets:clobber
   git push --force heroku "${commit}:refs/heads/master"
 else
   cat "$0" | grep ^#/ | cut -c4-
