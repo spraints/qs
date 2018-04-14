@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+#/ Usage: script/import --metric NAME FILE.CSV
+#/ Imports all data in FILE.CSV to a metric named
+#/ NAME. If --force is given, NAME will be removed
+#/ first.
+
+require "csv"
+
+class Importer
+  def initialize(owner: nil, metric:, file:, force: false)
+    @owner_name = nil
+    @metric_name = metric
+    @file = file
+    @force = force
+  end
+
+  attr_reader :owner_name, :metric_name, :file, :force
+
+  def run
+    metric = load_owner.find_metric(metric_name)
+    if metric.values.any?
+      unless force
+        puts "#{@metric} already exists and has data, not overwriting"
+        exit 1
+      end
+      metric.values.destroy_all
+    end
+    CSV.foreach(file) do |row|
+      val = metric.values.build
+      val.created_at = row[0]
+      val.value = row[1]
+      val.save!
+    end
+  end
+
+  def load_owner
+    if owner_name
+      if user = User.find_by(username: owner_name)
+        return user
+      end
+    end
+    if User.count == 1
+      return User.first
+    end
+    raise "More than one user, you'll have to tell me which one.\n  #{User.pluck(:username).join(", ")}"
+  end
+end
+
+def usage
+  system "cat #{$0} | grep ^#/ | cut -c4-"
+  exit 1
+end
+
+options = {}
+until ARGV.empty?
+  case arg = ARGV.shift
+  when "--metric"
+    options[:metric] = ARGV.shift
+  when "--force"
+    options[:force] = true
+  when /^-/
+    usage
+  else
+    if options[:file]
+      usage
+    else
+      options[:file] = arg
+    end
+  end
+end
+
+importer = begin
+  Importer.new(options)
+rescue => e
+  puts "#{e.class}: #{e}"
+  usage
+end
+require_relative "../config/environment"
+importer.run
