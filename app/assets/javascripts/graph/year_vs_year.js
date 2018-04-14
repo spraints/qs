@@ -27,8 +27,8 @@ function YearVsYear(options) {
       results.series.push(years[year].name);
       numSeries = numSeries + 1;
       if (numSeries > MAX_SERIES) {
-        const yearToRemove = results.series.shift()
-        console.log(`year ${year} is one too many, removing ${yearToRemove}`)
+        const yearToRemove = results.series.shift();
+        console.log("year " + year + " is one too many, removing " + yearToRemove);
       }
     }
     return years[year];
