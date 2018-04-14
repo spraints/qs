@@ -17,6 +17,7 @@
   padding-left: 50px; /* matches margin.left in graph.js */
 }
 /* http://paletton.com/#uid=7000A0kllllaFw0g0qFqFg0w0aF */
+/* The main colors. */
 .line0 { stroke: #26596a; }
 .legend0 { color: #26596a; }
 .line1 { stroke: #aa3939; }
@@ -25,3 +26,12 @@
 .legend2 { color: #aa7339; }
 .line3 { stroke: #2d882d; }
 .legend3 { color: #2d882d; }
+/* The dark colors */
+.line4 { stroke: #022835; }
+.legend4 { color: #022835; }
+.line5 { stroke: #550000; }
+.legend5 { color: #550000; }
+.line6 { stroke: #552c00; }
+.legend6 { color: #552c00; }
+.line7 { stroke: #004400; }
+.legend7 { color: #004400; }
