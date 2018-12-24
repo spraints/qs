@@ -53,7 +53,7 @@
       <tr class="data-point" data-x="<%= value.occurred_at %>" data-y="<%= value.value %>">
         <td>
           <time title="<%= value.occurred_at %>">
-            <%= time_ago_in_words(value.occurred_at) %>
+            <%= timestamp(value.occurred_at) %>
           </time>
           ago
         </td>
