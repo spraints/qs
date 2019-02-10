@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   metric_name_pattern = Rails.application.config.metric_name_pattern
 
   delete "metrics/values/:id" => "values#destroy", :as => :value
-  get "metrics/:id.csv" => "metrics#export"
+  get "metrics/:id.csv" => "metrics#export", :constraints => { :id => metric_name_pattern }
   resources :metrics, :constraints => { :id => metric_name_pattern }
 end
