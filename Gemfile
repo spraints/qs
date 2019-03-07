@@ -10,7 +10,7 @@ gem 'jquery-rails'
 
 # everything else
 gem 'dotenv'
-gem 'omniauth-google-oauth2'
+gem 'omniauth-google-oauth2', '>= 0.6.0'
 gem 'unicorn'
 
 # not production
