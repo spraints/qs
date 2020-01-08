@@ -40,14 +40,10 @@ GEM
       tzinfo (~> 1.1)
     arel (7.1.4)
     builder (3.2.3)
-    byebug (2.7.0)
-      columnize (~> 0.3)
-      debugger-linecache (~> 1.2)
+    byebug (11.0.1)
     coderay (1.1.2)
-    columnize (0.3.6)
     concurrent-ruby (1.1.5)
     crass (1.0.5)
-    debugger-linecache (1.2.0)
     diff-lcs (1.3)
     dotenv (0.10.0)
     erubis (2.7.0)
@@ -247,7 +243,7 @@ DEPENDENCIES
   unicorn
 
 RUBY VERSION
-   ruby 2.4.4p296
+   ruby 2.7.0p0
 
 BUNDLED WITH
    1.17.3
