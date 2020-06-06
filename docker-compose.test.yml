@@ -5,3 +5,10 @@ services:
     build:
       context: .
     command: ["script/test"]
+
+  check-assets:
+    build:
+      context: .
+    environment:
+      - RAILS_ENVIRONMENT=production
+    command: ["bin/rails", "assets:precompile"]
