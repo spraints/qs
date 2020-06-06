@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+if ! grep docker /proc/1/cgroup >&/dev/null; then
+  docker-compose -f docker-compose.test.yml build test
+  exec docker-compose -f docker-compose.test.yml run --rm test
+fi
+
+bin/rails db:schema:load RAILS_ENV=test
+exec bin/rails spec
