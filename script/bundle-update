@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -x
+set -xe
 
-docker-compose -f docker-compose.test.yml build --force-rm --quiet test
-docker-compose -f docker-compose.test.yml run --rm test \
+docker-compose -f docker-compose.test.yml build --force-rm bundled
+docker-compose -f docker-compose.test.yml run --rm bundled \
   cat Gemfile.lock > Gemfile.lock
