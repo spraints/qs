@@ -1,4 +1,4 @@
-FROM ruby:2.6.6 AS bundled
+FROM ruby:2.6.10 AS bundled
 
 RUN apt-get update && apt-get install -y nodejs
 
