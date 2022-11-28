@@ -11,3 +11,7 @@ RUN bundle install
 FROM bundled
 
 COPY . .
+
+RUN bin/rails assets:precompile
+
+CMD ["bundle", "exec", "unicorn", "-p", "3000", "-c", "config/unicorn.rb"]
