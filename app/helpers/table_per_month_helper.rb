@@ -7,7 +7,19 @@ module TablePerMonthHelper
       res[y] ||= {}
       res[y][m] ||= 0
       res[y][m] += value.value
+      res[y][:total] ||= 0
+      res[y][:total] += value.value
     end
-    res.sort_by { |y, _| y }
+    averages = Hash.new(0.0)
+    (1..12).each do |m|
+      vals = res.map { |_, months| months[m] }.compact
+      if vals.empty?
+        averages[m] = 0.0
+      else
+        averages[m] = vals.sum / vals.size
+      end
+    end
+    res = res.sort_by { |y, _| y }
+    [res, averages]
   end
 end

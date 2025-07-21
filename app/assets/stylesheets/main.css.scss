@@ -70,3 +70,11 @@ td {
 .table-per-month th {
   text-align: center;
 }
+
+.table-per-month td.value.aggregate {
+  border: none;
+}
+
+.table-per-month .aggregate {
+  font-style: italic;
+}
