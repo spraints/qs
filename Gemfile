@@ -13,6 +13,8 @@ gem 'dotenv'
 gem 'omniauth-google-oauth2', '>= 0.6.0'
 gem 'unicorn'
 
+gem 'ffi', '1.17.2'
+
 # not production
 group :development, :test do
   gem 'byebug'
