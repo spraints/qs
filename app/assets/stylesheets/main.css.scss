@@ -57,6 +57,16 @@ form {
   cursor: pointer;
 }
 
-.td {
+td {
   padding: 0 1em;
+}
+
+.table-per-month td.value {
+  border: solid 1px black;
+  width: 5em;
+  text-align: right;
+}
+
+.table-per-month th {
+  text-align: center;
 }

@@ -3,7 +3,12 @@
 <h2>
   <%= view_model.metric.name %>
 </h2>
-<div class="graph-placeholder <%= params[:style] %>"></div>
+<% case params[:style] %>
+<% when "table_per_month" %>
+  <%= render partial: "table_per_month" %>
+<% else %>
+  <div class="graph-placeholder <%= params[:style] %>"></div>
+<% end %>
 <ul>
   <li>
     <%= link_to_style "normal", nil %>
@@ -26,6 +31,10 @@
     <%= link_to_style "rate per week", "per_week" %>
     (<%= link_to_style "negative", "per_week_negative" %>)
     (<%= link_to_style "positive", "per_week_positive" %>)
+  </li>
+  <li>Table</li>
+  <li>
+    <%= link_to_style "by month", "table_per_month" %>
   </li>
 </ul>
 <table class="metrics">

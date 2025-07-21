@@ -1,0 +1,28 @@
+<% data = table_per_month(view_model.values) %>
+<table class="table-per-month">
+  <tr>
+    <th>Year</th>
+    <th>01</th>
+    <th>02</th>
+    <th>03</th>
+    <th>04</th>
+    <th>05</th>
+    <th>06</th>
+    <th>07</th>
+    <th>08</th>
+    <th>09</th>
+    <th>10</th>
+    <th>11</th>
+    <th>12</th>
+  </tr>
+  <tbody>
+    <% data.each do |year, months| %>
+      <tr>
+        <td><%= year %></td>
+        <% (1..12).each do |m| %>
+          <td class="value"><%= months[m] ? ("%0.1f" % months[m]) : "" %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
