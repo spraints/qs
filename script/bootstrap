@@ -1,3 +1,10 @@
-#!/bin/sh -e
+#!/bin/bash
 
-bundle install --path .bundle "$@"
+set -e
+
+# With Ruby 2.6.10:
+# gem update --system 3.2.3
+# gem install bundler -v 2.4.22
+
+bundle config set --local path '.bundle'
+bundle install "$@"
