@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OmniauthResultTest < ActiveSupport::TestCase
   def test_user_exists
-    existing_user = FactoryGirl.create :user, provider: "google", username: "spraints@gmail.com"
+    existing_user = FactoryBot.create :user, provider: "google", username: "spraints@gmail.com"
     user = make_result.user
     assert_equal existing_user, user
     assert_equal "spraints@gmail.com", user.username

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
   end
 
   def test_metric_is_created_for_a_measurement
