@@ -1,4 +1,4 @@
-<% data, averages = table_per_month(view_model.values) %>
+<% data, averages, stddevs = table_per_month(view_model.values) %>
 <table class="table-per-month">
   <tr>
     <th>Year</th>
@@ -21,7 +21,7 @@
       <tr>
         <td><%= year %></td>
         <% (1..12).each do |m| %>
-          <td class="value"><%= months[m] ? ("%0.1f" % months[m]) : "" %></td>
+          <td class="value <%= heat_class(value: months[m], mean: averages[m], stddev: stddevs[m]) %>"><%= months[m] ? ("%0.1f" % months[m]) : "" %></td>
         <% end %>
         <td class="value aggregate"><%= "%0.1f" % months[:total].to_f %></td>
       </tr>
