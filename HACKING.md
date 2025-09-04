@@ -26,5 +26,3 @@ Create a .env file using Client ID (from client list) and secret (from edit / in
 export GOOGLE_OAUTH_ID="..."
 export GOOGLE_OAUTH_SECRET="..."
 ```
-
-Then `source .env`.
