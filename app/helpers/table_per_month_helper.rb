@@ -34,9 +34,9 @@ module TablePerMonthHelper
       "extreme-low"
     when ratio < -1.0
       "low"
-    when ratio < 1.0
+    when ratio < 0.5
       "average"
-    when ratio < 2.0
+    when ratio < 1.0
       "high"
     else
       "extreme-high"
