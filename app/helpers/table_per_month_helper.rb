@@ -11,15 +11,35 @@ module TablePerMonthHelper
       res[y][:total] += value.value
     end
     averages = Hash.new(0.0)
+    stddevs = Hash.new(1.0)
     (1..12).each do |m|
       vals = res.map { |_, months| months[m] }.compact
-      if vals.empty?
-        averages[m] = 0.0
-      else
-        averages[m] = vals.sum / vals.size
-      end
+      next if vals.empty?
+      mean = vals.sum / vals.size
+      var = vals.map { |v| v.to_f * v.to_f }.sum / vals.size
+      averages[m] = mean
+      stddevs[m] = Math.sqrt(var)
     end
     res = res.sort_by { |y, _| y }
-    [res, averages]
+    [res, averages, stddevs]
+  end
+
+  def heat_class(value:, mean:, stddev:)
+    value ||= 0.0
+    mean ||= 0.0
+    stddev ||= 1.0
+    ratio = (value.to_f - mean.to_f) / stddev.to_f
+    case
+    when ratio < -2.0
+      "extreme-low"
+    when ratio < -1.0
+      "low"
+    when ratio < 1.0
+      "average"
+    when ratio < 2.0
+      "high"
+    else
+      "extreme-high"
+    end
   end
 end

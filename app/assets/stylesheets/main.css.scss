@@ -61,20 +61,38 @@ td {
   padding: 0 1em;
 }
 
-.table-per-month td.value {
-  border: solid 1px black;
-  width: 5em;
-  text-align: right;
-}
+.table-per-month {
+  td.value {
+    border: solid 1px black;
+    width: 5em;
+    text-align: right;
+  }
 
-.table-per-month th {
-  text-align: center;
-}
+  th {
+    text-align: center;
+  }
 
-.table-per-month td.value.aggregate {
-  border: none;
-}
+  td.value.aggregate {
+    border: none;
+  }
 
-.table-per-month .aggregate {
-  font-style: italic;
+  .aggregate {
+    font-style: italic;
+  }
+
+  .extreme-high {
+    background-color: #D4F4D4;
+  }
+
+  .high {
+    background-color: #E6F7E6;
+  }
+
+  .low {
+    background-color: #FFE6E6;
+  }
+
+  .extreme-low {
+    background-color: #FFD4B3;
+  }
 }
