@@ -16,7 +16,7 @@ module TablePerMonthHelper
       vals = res.map { |_, months| months[m] }.compact
       next if vals.empty?
       mean = vals.sum / vals.size
-      var = vals.map { |v| v.to_f * v.to_f }.sum / vals.size
+      var = vals.map { |v| v.to_f - mean }.map { |d| d * d }.sum / vals.size
       averages[m] = mean
       stddevs[m] = Math.sqrt(var)
     end
