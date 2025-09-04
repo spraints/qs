@@ -1,5 +1,3 @@
 #!/bin/sh -e
 
-./script/bootstrap --local --quiet
-
 ./bin/unicorn -p 3031 -c config/unicorn.rb

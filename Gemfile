@@ -16,17 +16,15 @@ gem 'unicorn'
 # not production
 group :development, :test do
   gem 'byebug'
-  gem 'rspec-rails'
   gem 'sqlite3'
 end
 
 group :development do
-  gem 'guard-rspec'
   gem 'spring'
 end
 
 group :test do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails', '4.11.1'
 end
 
 # production
